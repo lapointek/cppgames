@@ -27,6 +27,9 @@ int main()
 
 bool WantToPlayAgain()
 {
+  const char validInputs[] = {'y', 'n'};
+  char response = GetCharacter("Would you like to play again? (y/n) ", INPUT_ERROR_STRING, validInputs, 2);
+  return response == 'y';
 }
 
 void PlayGame()
@@ -49,7 +52,7 @@ int GetSecretPhrase(char secretPhrase[], int maxLength)
   do
   {
     failure = false;
-    cout << "Please enter te secret phrase: ";
+    cout << "Please enter the secret phrase: ";
     cin.get(secretPhrase, maxLength);
 
     if (cin.fail())
@@ -74,7 +77,7 @@ int GetSecretPhrase(char secretPhrase[], int maxLength)
   return length;
 }
 
-char *MakeHiddenPhrase(char *secretPhrase, int secretPhraseLength)
+char *MakeHiddenPhrase(const char *secretPhrase, int secretPhraseLength)
 {
   char *hiddenPhrase = new char[secretPhraseLength + 1];
 
