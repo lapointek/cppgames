@@ -12,6 +12,8 @@ int GetSecretPhrase(char secretPhrase[], int maxLength);
 char *MakeHiddenPhrase(const char *secretPhrase, int secretPhraseLength);
 bool WantToPlayAgain();
 void DrawBoard(int numberOfGuessesLeft, const char *optrHiddenPhrase);
+char GetCharacter(const char *prompt, const char *error);
+char GetCharacter(const char *prompt, const char *error, const char validInput[], int validInputLength);
 
 int main()
 {
@@ -123,6 +125,47 @@ char GetCharacter(const char *prompt, const char *error)
         cout << error << endl;
         failure = true;
       }
+    }
+  } while (failure);
+  return input;
+}
+
+char GetCharacter(const char *prompt, const char *error, const char validInput[], int validInputLength)
+{
+  char input;
+  bool failure;
+
+  do
+  {
+    failure = false;
+    cout << prompt;
+    cin >> input;
+
+    if (cin.fail())
+    {
+      cin.clear();
+      cin.ignore(IGNORE_CHARS, '\n');
+      cout << error << endl;
+      failure = true;
+    }
+    else
+    {
+      cin.ignore(IGNORE_CHARS, '\n');
+
+      if (isalpha(input))
+      {
+        input = tolower(input);
+
+        for (int i = 0; i < validInputLength; i++)
+        {
+          if (input == validInput[i])
+          {
+            return input;
+          }
+        }
+      }
+      cout << error << endl;
+      failure = true;
     }
   } while (failure);
   return input;
