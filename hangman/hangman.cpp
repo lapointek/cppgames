@@ -23,7 +23,9 @@ int main()
   return 0;
 }
 
-bool WantToPlayAgain() {}
+bool WantToPlayAgain()
+{
+}
 
 void PlayGame()
 {
@@ -87,6 +89,43 @@ char *MakeHiddenPhrase(char *secretPhrase, int secretPhraseLength)
   }
   hiddenPhrase[secretPhraseLength] = '\0';
   return hiddenPhrase;
+}
+
+char GetCharacter(const char *prompt, const char *error)
+{
+  char input;
+  bool failure;
+
+  do
+  {
+    failure = false;
+
+    cout << prompt;
+    cin >> input;
+
+    if (cin.fail())
+    {
+      cin.clear();
+      cin.ignore(IGNORE_CHARS, '\n');
+      cout << error << endl;
+      failure = true;
+    }
+    else
+    {
+      cin.ignore(IGNORE_CHARS, '\n');
+
+      if (isalpha(input))
+      {
+        input = tolower(input);
+      }
+      else
+      {
+        cout << error << endl;
+        failure = true;
+      }
+    }
+  } while (failure);
+  return input;
 }
 
 void DrawBoard(int numberOfGuessesLeft, const char *optrHiddenPhrase)
